@@ -1,0 +1,59 @@
+{
+  "_comment": "Single source of truth for Azure Static Web Apps config. It lives in public/ because Next's static export copies public/ into out/, and SWA serves the copy inside the deployed artifact. A second copy at the project root is IGNORED at runtime even though the SWA CLI prints that it found it — do not recreate one.",
+  "trailingSlash": "auto",
+  "globalHeaders": {
+    "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "SAMEORIGIN",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+  },
+  "routes": [
+    {
+      "route": "/privacy/marka-order-printer",
+      "redirect": "/apps/marka-order-printer/privacy/",
+      "statusCode": 301
+    },
+    {
+      "route": "/terms/marka-order-printer",
+      "redirect": "/apps/marka-order-printer/terms/",
+      "statusCode": 301
+    },
+    {
+      "route": "/privacy/marka-bundles",
+      "redirect": "/apps/marka-bundles/privacy/",
+      "statusCode": 301
+    },
+    {
+      "route": "/terms/marka-bundles",
+      "redirect": "/apps/marka-bundles/terms/",
+      "statusCode": 301
+    },
+    {
+      "route": "/privacy/marka-subscrify",
+      "redirect": "/apps/marka-subscrify/privacy/",
+      "statusCode": 301
+    },
+    {
+      "route": "/terms/marka-subscrify",
+      "redirect": "/apps/marka-subscrify/terms/",
+      "statusCode": 301
+    },
+    {
+      "route": "/_next/static/*",
+      "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+    },
+    {
+      "route": "/favicon.svg",
+      "headers": { "Cache-Control": "public, max-age=86400" }
+    }
+  ],
+  "responseOverrides": {
+    "404": { "rewrite": "/404.html" }
+  },
+  "mimeTypes": {
+    ".json": "application/json",
+    ".svg": "image/svg+xml",
+    ".webmanifest": "application/manifest+json"
+  }
+}
