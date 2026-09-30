@@ -10,9 +10,15 @@ export const site = {
   legal: 'Marka Modern Retail Private Limited',
   domain: 'houseofmarka.com',
   url: 'https://houseofmarka.com',
-  tagline: 'Applied AI and product engineering for modern commerce.',
+  tagline: 'A house of apps: Shopify, Android, iOS and SaaS.',
+  /**
+   * The one-sentence answer to "what is House of Marka?". It is the home page meta
+   * description, the Organization schema description and the llms.txt summary, so
+   * search engines and AI answer engines all read the same definition. Keep it under
+   * 160 characters.
+   */
   description:
-    'Applied AI, Shopify apps, product engineering and marketplace integration for merchants and enterprises across the US, UK and Europe. Built by senior teams.',
+    'House of Marka is a house of apps: our own Shopify apps, Android and iOS apps built to order, and a SaaS platform, plus applied AI for the US, UK and Europe.',
   email: 'support@houseofmarka.com',
   sales: 'tech@houseofmarka.com',
   tech: 'tech@houseofmarka.com',
@@ -47,6 +53,7 @@ export const contacts = [
 
 /** Primary header navigation. */
 export const nav = [
+  { href: '/apps/', label: 'Apps' },
   { href: '/services/', label: 'Services' },
   { href: '/marketplaces/', label: 'Marketplaces' },
   { href: '/work/', label: 'Work' },
@@ -142,10 +149,10 @@ export const services = [
   },
   {
     id: 'apps',
-    kicker: 'Product Engineering',
-    title: 'Apps people actually keep',
+    kicker: 'Android & iOS Apps',
+    title: 'Your app, built and shipped for you',
     blurb:
-      'Native iOS and Android, React Native, and web platforms. Designed and built by one team, from first wireframe to store release and the boring parts after it.',
+      'Have an idea for an Android or iOS app? We design and build it — native Swift and Kotlin, React Native or Flutter — from first wireframe to Play Store and App Store release, and the maintenance after it. Get in touch and tell us what you want built.',
     points: [
       'Native Swift & Kotlin, React Native, Flutter',
       'Next.js and React web platforms at scale',
@@ -181,6 +188,51 @@ export const services = [
       'SOC 2, GDPR and ISO 27001 readiness',
       '24/7 monitoring and incident response',
     ],
+  },
+];
+
+/**
+ * The four kinds of app House of Marka puts its name on — the "house of apps"
+ * section on the home page and /apps/. Shopify apps are our own, published on the
+ * Shopify App Store; Android and iOS apps are built to order for whoever wants one;
+ * the SaaS platform is our own and has no public name yet, so none is invented here.
+ */
+export const houseOfApps = [
+  {
+    id: 'shopify',
+    kicker: 'Shopify apps',
+    title: 'Our own Shopify apps',
+    copy:
+      'Published on the Shopify App Store by Marka Modern Retail Private Limited. Featured: Marka Bundles & Upsells — quantity breaks, bundles, BOGO and upsells priced correctly at checkout, with no shopper data stored.',
+    href: '/apps/marka-bundles/',
+    cta: 'See Marka Bundles & Upsells',
+  },
+  {
+    id: 'android',
+    kicker: 'Android apps',
+    title: 'Android apps, built for you',
+    copy:
+      'Native Kotlin, or cross-platform in React Native and Flutter. We take your idea from first wireframe to Google Play release, and look after it once it is live.',
+    href: '/contact/',
+    cta: 'Get your Android app built',
+  },
+  {
+    id: 'ios',
+    kicker: 'iOS apps',
+    title: 'iPhone and iPad apps, built for you',
+    copy:
+      'Native Swift and SwiftUI, designed to Apple’s guidelines and shipped through App Store review — with release engineering that keeps every update smooth.',
+    href: '/contact/',
+    cta: 'Get your iOS app built',
+  },
+  {
+    id: 'saas',
+    kicker: 'SaaS platform',
+    title: 'A SaaS platform of our own',
+    copy:
+      'Cloud software that we build, host and support ourselves, on the same engineering standards as every app in the house. Write to us to hear more.',
+    href: '/contact/',
+    cta: 'Ask about the platform',
   },
 ];
 
@@ -469,8 +521,34 @@ export const engagements: {
   },
 ];
 
-/** The home-page FAQ accordion (also emitted as FAQPage JSON-LD). */
+/**
+ * The home-page FAQ accordion (also emitted as FAQPage JSON-LD).
+ *
+ * The first four are written for answer engines: each question is phrased the way
+ * people ask it, and each answer opens with a complete, quotable sentence that
+ * names House of Marka — so a snippet lifted out of context still makes sense.
+ */
 export const faqs = [
+  {
+    q: 'What is House of Marka?',
+    a:
+      'House of Marka is a house of apps: we publish our own Shopify apps, build Android and iOS apps for clients, and develop a SaaS platform of our own. It is the trading name of Marka Modern Retail Private Limited, based in Gurugram, India, and it also offers applied AI, product engineering and marketplace integration to teams in the US, UK and Europe.',
+  },
+  {
+    q: 'Which Shopify apps does House of Marka publish?',
+    a:
+      'House of Marka publishes its own apps on the Shopify App Store, including Marka Bundles & Upsells — quantity breaks, fixed bundles, mix & match, BOGO, add-on upsells and frequently bought together, priced correctly at checkout by Shopify Functions and storing no shopper personal data. Every app, with its privacy policy and terms, is listed on our Apps page.',
+  },
+  {
+    q: 'Can House of Marka build an Android or iOS app for me?',
+    a:
+      'Yes. House of Marka designs and builds Android and iOS apps to order — native Kotlin and Swift, or cross-platform in React Native and Flutter — from first wireframe to Google Play and App Store release, and maintains them afterwards. Tell us what you want built at tech@houseofmarka.com or through the contact page.',
+  },
+  {
+    q: 'Does House of Marka have a SaaS platform?',
+    a:
+      'Yes. Alongside its Shopify apps, House of Marka develops its own SaaS (software-as-a-service) platform — cloud software that it builds, hosts and supports itself. For details, write to tech@houseofmarka.com.',
+  },
   {
     q: 'How do you price work?',
     a:
