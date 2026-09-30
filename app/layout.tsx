@@ -22,25 +22,32 @@ const ogTitle = `${site.brand} — ${site.tagline}`;
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.brand} — Applied AI & product engineering`,
+    default: `${site.brand} — Shopify apps, Android & iOS apps, SaaS`,
     template: `%s — ${site.brand}`,
   },
   description: site.description,
   keywords: [
-    'AI development company',
-    'app development agency',
-    'marketplace integration',
-    'Amazon Shopify eBay integration',
-    'custom software United Kingdom',
-    'AI agents for commerce',
-    'Marka Modern Retail',
     'House of Marka',
+    'house of apps',
+    'Shopify apps',
+    'Shopify app developer',
+    'Android app development',
+    'iOS app development',
+    'mobile app development company',
+    'SaaS platform',
+    'AI development company',
+    'marketplace integration',
+    'Marka Modern Retail',
   ],
   authors: [{ name: site.legal }],
+  // './' resolves against each page's own path, so every page declares itself as
+  // canonical. This used to be `site.url`, which every page without its own
+  // `alternates` inherited — telling Google that 25 pages, from /about/ to every app
+  // privacy policy, were duplicates of the home page. The same applies to og:url.
   openGraph: {
     type: 'website',
     locale: 'en_GB',
-    url: site.url,
+    url: './',
     siteName: site.brand,
     title: ogTitle,
     description: site.description,
@@ -52,8 +59,12 @@ export const metadata: Metadata = {
     description: site.description,
     images: ['/og.png'],
   },
-  alternates: { canonical: site.url },
-  robots: { index: true, follow: true },
+  alternates: { canonical: './' },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 },
+  },
 };
 
 export const viewport: Viewport = {
@@ -72,10 +83,12 @@ export const viewport: Viewport = {
 const organisationLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': `${site.url}/#organization`,
   name: site.brand,
   legalName: site.legal,
   url: site.url,
   email: site.email,
+  slogan: site.tagline,
   description: site.description,
   areaServed: ['US', 'GB', 'EU', 'IN'],
   address: {
@@ -86,7 +99,66 @@ const organisationLd = {
     postalCode: site.address.postalCode,
     addressCountry: site.address.country,
   },
-  logo: `${site.url}/og.png`,
+  // A square raster mark on a solid background reads as a logo; the 1200×630 share
+  // banner (og.png, still used as `image`) does not.
+  logo: { '@type': 'ImageObject', url: `${site.url}/logo.png`, width: 512, height: 512 },
+  image: `${site.url}/og.png`,
+  sameAs: ['https://github.com/MarkaTech'],
+  // What the house makes — the entity facts answer engines lift when asked what
+  // House of Marka is. Only named products appear here; the SaaS platform has no
+  // public name yet, so it is described in visible copy instead.
+  knowsAbout: [
+    'Shopify app development',
+    'Android app development',
+    'iOS app development',
+    'Software as a service (SaaS)',
+    'Applied AI',
+    'Marketplace integration',
+    'E-commerce engineering',
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'House of Marka apps and services',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'SoftwareApplication',
+          name: 'Marka Bundles & Upsells',
+          applicationCategory: 'BusinessApplication',
+          operatingSystem: 'Shopify',
+          url: `${site.url}/apps/marka-bundles/`,
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Android app development',
+          serviceType: 'Mobile app development',
+          url: `${site.url}/services/#apps`,
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'iOS app development',
+          serviceType: 'Mobile app development',
+          url: `${site.url}/services/#apps`,
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Shopify app development',
+          serviceType: 'Software development',
+          url: `${site.url}/services/#shopify`,
+        },
+      },
+    ],
+  },
   contactPoint: [
     {
       '@type': 'ContactPoint',
@@ -102,14 +174,33 @@ const organisationLd = {
   ],
 };
 
+/** WebSite schema: ties the site to the organisation above by @id. */
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${site.url}/#website`,
+  name: site.brand,
+  url: site.url,
+  description: site.description,
+  inLanguage: 'en-GB',
+  publisher: { '@id': `${site.url}/#organization` },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${sora.variable}`}>
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/logo.png" />
+        {/* A plain-text map of the site for AI answer engines — see public/llms.txt. */}
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organisationLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
         />
       </head>
       <body>

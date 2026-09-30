@@ -12,6 +12,8 @@ import Nav from '@/components/Nav';
 export const metadata: Metadata = {
   title: 'Page not found',
   robots: { index: false, follow: true },
+  // The root layout makes every page self-canonical; a 404 should not claim a URL.
+  alternates: { canonical: null },
 };
 
 const popular: [string, string][] = [
@@ -19,7 +21,7 @@ const popular: [string, string][] = [
   ['/marketplaces/', 'Marketplaces'],
   ['/work/', 'Case studies'],
   ['/insights/', 'Insights'],
-  ['/apps/', 'Shopify apps'],
+  ['/apps/', 'Apps'],
   ['/about/', 'Company'],
 ];
 
