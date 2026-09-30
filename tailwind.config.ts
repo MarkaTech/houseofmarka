@@ -34,7 +34,7 @@ const config: Config = {
       },
       keyframes: {
         fadeUp: {
-          '0%': { opacity: '0', transform: 'translateY(18px)' },
+          '0%': { opacity: '0', transform: 'translateY(28px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         marquee: {
@@ -45,6 +45,8 @@ const config: Config = {
       animation: {
         'fade-up': 'fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both',
         marquee: 'marquee 42s linear infinite',
+        // The dashed ring behind the hero on devices that skip the WebGL scene.
+        'spin-slow': 'spin 26s linear infinite',
       },
     },
   },
