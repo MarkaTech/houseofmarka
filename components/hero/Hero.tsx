@@ -10,7 +10,9 @@ import { site } from '@/lib/site';
    static export would try to evaluate it at build time. */
 const MarkScene = dynamic(() => import('./MarkScene'), { ssr: false });
 
-const WORDS = ['apps', 'AI agents', 'marketplaces', 'platforms', 'storefronts'];
+/* The house of apps, in the order the site introduces them. The first word is what
+   the prerendered <h1> contains, so it is the one search engines read. */
+const WORDS = ['Shopify apps', 'Android apps', 'iOS apps', 'SaaS', 'AI agents'];
 const ROTATE_MS = 2600;
 /** Scroll distance, in px, over which the scene and the scroll cue fade out. */
 const FADE_PX = 620;
@@ -145,9 +147,9 @@ export default function Hero() {
           </h1>
 
           <p className="lede mt-8 max-w-xl animate-fade-up" style={{ animationDelay: '300ms' }}>
-            House of Marka is the engineering studio of {site.legal}. Applied AI, native apps and the
-            marketplace infrastructure that connects merchants to every channel worth selling on —
-            for teams in the United States, United Kingdom and Europe.
+            House of Marka is a house of apps. We publish our own Shopify apps, build Android and iOS
+            apps for anyone with an idea, and run a SaaS platform of our own — with applied AI and
+            marketplace engineering for teams in the United States, United Kingdom and Europe.
           </p>
 
           <div
@@ -166,8 +168,8 @@ export default function Hero() {
                 />
               </svg>
             </Magnetic>
-            <Magnetic href="/work/" className="btn-ghost">
-              See our work
+            <Magnetic href="/apps/" className="btn-ghost">
+              Explore our apps
             </Magnetic>
           </div>
         </div>
