@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import Magnetic from '@/components/Magnetic';
 import { site } from '@/lib/site';
@@ -11,45 +11,51 @@ import { site } from '@/lib/site';
 const MarkScene = dynamic(() => import('./MarkScene'), { ssr: false });
 
 const WORDS = ['apps', 'AI agents', 'marketplaces', 'platforms', 'storefronts'];
-const ROTATE_MS = 3200;
+const ROTATE_MS = 2600;
+/** Scroll distance, in px, over which the scene and the scroll cue fade out. */
+const FADE_PX = 620;
 
 export default function Hero() {
-  const ref = useRef<HTMLElement>(null);
-  const reduced = useReducedMotion();
-  const [word, setWord] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const [scene, setScene] = useState(false);
-
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const sceneOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
-  const sceneY = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const sceneScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-  const cueOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
+  const [word, setWord] = useState(0);
+  const ref = useRef<HTMLElement>(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    if (reduced) return;
-    const id = window.setInterval(() => setWord((w) => (w + 1) % WORDS.length), ROTATE_MS);
-    return () => window.clearInterval(id);
-  }, [reduced]);
+    setMounted(true);
 
-  /**
-   * Only mount the WebGL scene where it will actually be good: a real GPU
-   * context, at least two cores, a wide viewport, and no reduced-motion
-   * preference. Everywhere else gets the gradient glow below, which costs
-   * nothing and still fills the right third of the composition.
-   */
-  useEffect(() => {
-    if (reduced) return;
-    const wide = window.matchMedia('(min-width: 900px)').matches;
-    const cores = typeof navigator !== 'undefined' ? navigator.hardwareConcurrency ?? 0 : 0;
-    let webgl = false;
-    try {
-      const probe = document.createElement('canvas');
-      webgl = Boolean(probe.getContext('webgl2') ?? probe.getContext('webgl'));
-    } catch {
-      webgl = false;
-    }
-    setScene(wide && cores >= 2 && webgl);
-  }, [reduced]);
+    /**
+     * Only mount the WebGL scene where it will actually be good: no
+     * reduced-motion preference, a viewport wider than 820px, at least two
+     * cores (assumed 4 when the browser does not say), and a real GPU context.
+     * Everywhere else gets the gradient glow below, which costs nothing and
+     * still fills the right third of the composition.
+     */
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const wide = window.innerWidth > 820;
+    const cores = navigator.hardwareConcurrency ?? 4;
+    const webgl = (() => {
+      try {
+        const probe = document.createElement('canvas');
+        return !!(probe.getContext('webgl2') || probe.getContext('webgl'));
+      } catch {
+        return false;
+      }
+    })();
+    setScene(!reduced && wide && cores >= 2 && webgl);
+
+    // Respect reduced motion: the headline keeps its first word instead of cycling.
+    const id = reduced ? 0 : window.setInterval(() => setWord((w) => (w + 1) % WORDS.length), ROTATE_MS);
+    const onScroll = () => {
+      setProgress(Math.min(1, window.scrollY / FADE_PX));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      clearInterval(id);
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
 
   return (
     <section
@@ -62,16 +68,15 @@ export default function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-ink-950 to-transparent" />
       </div>
 
-      <motion.div
+      <div
         className="absolute inset-0 z-0"
         style={{
-          opacity: sceneOpacity,
-          y: sceneY,
-          scale: sceneScale,
+          opacity: 1 - 0.85 * progress,
+          transform: `translateY(${60 * progress}px) scale(${1 - 0.06 * progress})`,
           transition: 'opacity 120ms linear',
         }}
       >
-        {scene ? (
+        {mounted && scene ? (
           <MarkScene />
         ) : (
           <div className="relative flex h-full items-center justify-center">
@@ -79,7 +84,7 @@ export default function Hero() {
             <div className="pointer-events-none absolute h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(216,182,106,0.14),transparent_68%)] blur-2xl" />
           </div>
         )}
-      </motion.div>
+      </div>
 
       <div
         className="pointer-events-none absolute inset-0 z-[5]"
@@ -168,15 +173,15 @@ export default function Hero() {
         </div>
       </div>
 
-      <motion.div
+      <div
         className="absolute inset-x-0 bottom-8 z-10 flex justify-center"
-        style={{ opacity: cueOpacity }}
+        style={{ opacity: 1 - 3 * progress }}
       >
         <div className="flex flex-col items-center gap-2">
           <span className="text-[10px] uppercase tracking-[0.3em] text-bone-400">Scroll</span>
           <span className="block h-10 w-px bg-gradient-to-b from-white/45 to-transparent" />
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

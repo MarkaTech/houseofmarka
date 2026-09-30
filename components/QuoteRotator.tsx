@@ -1,22 +1,34 @@
 'use client';
 
 import Link from 'next/link';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { work } from '@/lib/site';
 
-const INTERVAL = 7000;
+const INTERVAL = 5200;
 
-/** Rotates the four case-study quotes, with dot navigation. */
+const quotes = work.map((c) => ({
+  text: c.quote.text,
+  role: c.quote.role,
+  client: c.client,
+  slug: c.slug,
+}));
+
+/**
+ * Rotates the four case-study quotes, with dot navigation. Auto-advance is off
+ * under reduced motion; the dots still work.
+ */
 export default function QuoteRotator() {
   const [i, setI] = useState(0);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
-    const id = window.setInterval(() => setI((n) => (n + 1) % work.length), INTERVAL);
-    return () => window.clearInterval(id);
-  }, []);
+    if (reduced) return;
+    const id = setInterval(() => setI((n) => (n + 1) % quotes.length), INTERVAL);
+    return () => clearInterval(id);
+  }, [reduced]);
 
-  const c = work[i];
+  const q = quotes[i];
 
   return (
     <div className="relative">
@@ -37,23 +49,23 @@ export default function QuoteRotator() {
       <div className="relative min-h-[150px] md:min-h-[120px]">
         <AnimatePresence mode="wait">
           <motion.blockquote
-            key={c.slug}
+            key={q.slug}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           >
             <p className="max-w-3xl font-display text-2xl font-light leading-snug text-bone-100 md:text-[32px]">
-              “{c.quote.text}”
+              “{q.text}”
             </p>
             <footer className="mt-6 flex flex-wrap items-center gap-3 text-[12px] uppercase tracking-[0.16em] text-bone-400">
-              <span className="text-gold-400">{c.quote.role}</span>
+              <span className="text-gold-400">{q.role}</span>
               <span className="h-1 w-1 rounded-full bg-bone-400/50" />
-              <span>{c.client}</span>
+              <span>{q.client}</span>
               <span className="h-1 w-1 rounded-full bg-bone-400/50" />
               <Link
                 className="underline decoration-white/20 underline-offset-4 transition-colors hover:text-bone-100"
-                href={`/work/${c.slug}/`}
+                href={`/work/${q.slug}/`}
               >
                 Case study
               </Link>
@@ -63,9 +75,9 @@ export default function QuoteRotator() {
       </div>
 
       <div className="mt-8 flex gap-2">
-        {work.map((q, n) => (
+        {quotes.map((item, n) => (
           <button
-            key={q.slug}
+            key={item.slug}
             aria-label={`Quote ${n + 1}`}
             className="group flex h-6 items-center"
             onClick={() => setI(n)}

@@ -1,29 +1,36 @@
 'use client';
 
-import { motion, useInView, useReducedMotion } from 'framer-motion';
-import { useRef, type ReactNode } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import type { ReactNode } from 'react';
 
 /**
- * Scroll-triggered fade-up. Fires once — an element that re-animates every time
- * it re-enters the viewport reads as a glitch on the way back up a page.
+ * Scroll-triggered fade-up. Fires once by default — an element that re-animates
+ * every time it re-enters the viewport reads as a glitch on the way back up a
+ * page. Under reduced motion it starts at full opacity, so nothing is ever
+ * hidden waiting for a scroll.
  */
-export default function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-12% 0px' });
+export default function Reveal({
+  children,
+  delay = 0,
+  y = 26,
+  className = '',
+  once = true,
+}: {
+  children: ReactNode;
+  delay?: number;
+  y?: number;
+  className?: string;
+  once?: boolean;
+}) {
   const reduced = useReducedMotion();
-  const shown = inView || reduced;
 
   return (
     <motion.div
-      ref={ref}
-      className=""
-      initial={{ opacity: 0, y: 26 }}
-      animate={shown ? { opacity: 1, y: 0 } : { opacity: 0, y: 26 }}
-      transition={{
-        duration: reduced ? 0 : 0.75,
-        delay: reduced ? 0 : delay,
-        ease: [0.22, 1, 0.36, 1],
-      }}
+      className={className}
+      initial={reduced ? { opacity: 1, y: 0 } : { opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once, margin: '-12% 0px -12% 0px' }}
+      transition={{ duration: 0.85, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>

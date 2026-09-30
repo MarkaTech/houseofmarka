@@ -1,50 +1,57 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useReducedMotion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * Two elliptical rings of channel names around a single "your catalogue" core.
  *
- * Positions are percentages inside a 16/11 box: x = 50 + rx·cos(a),
- * y = 50 + rx·0.56·sin(a). The 0.56 flattens the circle into the same ellipse
+ * Positions are percentages inside a 16/11 box: x = 50 + cos(a)·r,
+ * y = 50 + sin(a)·r·0.56. The 0.56 flattens the circle into the same ellipse
  * the SVG guides draw. `depth` — 0 at the back of the ring, 1 at the front —
  * drives opacity, scale and z-index together, so a name passing behind the core
  * dims and shrinks instead of colliding with it.
  */
-const RINGS = [
-  {
-    rx: 42,
-    phase: 0,
-    stroke: 'rgba(255,255,255,0.07)',
-    speed: 0.055,
-    items: ['Zalando', 'Otto', 'Allegro', 'bol.com', 'Cdiscount', 'TikTok Shop'],
-  },
-  {
-    rx: 28,
-    phase: 0.6,
-    stroke: 'rgba(216,182,106,0.14)',
-    speed: -0.042,
-    items: ['Amazon', 'Shopify', 'eBay', 'Walmart', 'Etsy'],
-  },
-];
+const inner = ['Amazon', 'Shopify', 'eBay', 'Walmart', 'Etsy'];
+const outer = ['Zalando', 'Otto', 'Allegro', 'bol.com', 'Cdiscount', 'TikTok Shop'];
 
 export default function MarketplaceOrbit() {
-  const reduced = useReducedMotion();
   const [t, setT] = useState(0);
+  const raf = useRef(0);
 
   useEffect(() => {
-    if (reduced) return;
-    let raf = 0;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let start: number | null = null;
     const tick = (now: number) => {
       if (start === null) start = now;
       setT((now - start) / 1000);
-      raf = requestAnimationFrame(tick);
+      raf.current = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [reduced]);
+    raf.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf.current);
+  }, []);
+
+  /** `speed` is in radians per second; `phase` offsets the whole ring. */
+  const node = (label: string, i: number, count: number, radius: number, speed: number, phase = 0) => {
+    const a = (i / count) * Math.PI * 2 + t * speed + phase;
+    const x = 50 + Math.cos(a) * radius;
+    const y = 50 + Math.sin(a) * radius * 0.56;
+    const depth = (Math.sin(a) + 1) / 2;
+    return (
+      <div
+        key={label}
+        className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border border-white/10 bg-ink-800/80 px-3.5 py-1.5 text-[11.5px] font-medium text-bone-200 backdrop-blur-md"
+        style={{
+          left: `${x}%`,
+          top: `${y}%`,
+          opacity: 0.45 + 0.55 * depth,
+          transform: `translate(-50%,-50%) scale(${0.86 + 0.2 * depth})`,
+          zIndex: Math.round(10 * depth),
+        }}
+      >
+        {label}
+      </div>
+    );
+  };
 
   return (
     <div className="relative mx-auto aspect-[16/11] w-full max-w-3xl">
@@ -54,18 +61,8 @@ export default function MarketplaceOrbit() {
         preserveAspectRatio="none"
         aria-hidden="true"
       >
-        {RINGS.map((ring) => (
-          <ellipse
-            key={ring.rx}
-            cx="50"
-            cy="50"
-            rx={ring.rx}
-            ry={(ring.rx * 0.56).toFixed(1)}
-            fill="none"
-            stroke={ring.stroke}
-            strokeWidth="0.15"
-          />
-        ))}
+        <ellipse cx="50" cy="50" rx="42" ry="23.5" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="0.15" />
+        <ellipse cx="50" cy="50" rx="28" ry="15.7" fill="none" stroke="rgba(216,182,106,0.14)" strokeWidth="0.15" />
       </svg>
 
       <div className="absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(216,182,106,0.16),transparent_65%)] blur-2xl" />
@@ -78,29 +75,8 @@ export default function MarketplaceOrbit() {
         </div>
       </div>
 
-      {RINGS.map((ring) =>
-        ring.items.map((label, i) => {
-          const a = (i / ring.items.length) * Math.PI * 2 + ring.phase + t * ring.speed;
-          const x = 50 + ring.rx * Math.cos(a);
-          const y = 50 + ring.rx * 0.56 * Math.sin(a);
-          const depth = (Math.sin(a) + 1) / 2;
-          return (
-            <div
-              key={label}
-              className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border border-white/10 bg-ink-800/80 px-3.5 py-1.5 text-[11.5px] font-medium text-bone-200 backdrop-blur-md"
-              style={{
-                left: `${x}%`,
-                top: `${y}%`,
-                opacity: 0.45 + 0.55 * depth,
-                transform: `translate(-50%,-50%) scale(${0.86 + 0.2 * depth})`,
-                zIndex: Math.round(depth * 10),
-              }}
-            >
-              {label}
-            </div>
-          );
-        }),
-      )}
+      {outer.map((label, i) => node(label, i, outer.length, 42, 0.09))}
+      {inner.map((label, i) => node(label, i, inner.length, 28, -0.14, 0.6))}
     </div>
   );
 }

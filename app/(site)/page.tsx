@@ -130,9 +130,7 @@ export default function HomePage() {
         />
         <div className="mt-16 grid gap-5 md:grid-cols-2">
           {services.map((s, i) => (
-            // Reveal takes no className, so the grid span lives on a wrapper.
-            <div key={s.id} className={i === services.length - 1 ? 'md:col-span-2' : undefined}>
-              <Reveal delay={i * 0.07}>
+            <Reveal key={s.id} delay={i * 0.07} className={i === services.length - 1 ? 'md:col-span-2' : ''}>
                 <Link href={`/services/#${s.id}`} className="group block h-full">
                   <div className="card card-hover grain h-full p-8 md:p-10">
                     <div className="pointer-events-none absolute -right-24 -top-24 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(216,182,106,0.10),transparent_65%)] opacity-0 blur-2xl transition-opacity duration-700 group-hover:opacity-100" />
@@ -155,20 +153,18 @@ export default function HomePage() {
                     </span>
                   </div>
                 </Link>
-              </Reveal>
-            </div>
+            </Reveal>
           ))}
         </div>
       </Section>
 
       <Section className="border-t border-white/[0.06]">
-        <div className="mx-auto text-center">
-          <SectionHead
-            eyebrow="Commerce infrastructure"
-            title="Sell everywhere. Manage it in one place."
-            copy="We connect merchants to the marketplaces their customers already shop on — and keep inventory, pricing, content and orders reconciled across all of them, in near real time."
-          />
-        </div>
+        <SectionHead
+          center
+          eyebrow="Commerce infrastructure"
+          title="Sell everywhere. Manage it in one place."
+          copy="We connect merchants to the marketplaces their customers already shop on — and keep inventory, pricing, content and orders reconciled across all of them, in near real time."
+        />
         <Reveal delay={0.1}>
           <div className="mt-16">
             <MarketplaceOrbit />

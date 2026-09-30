@@ -235,7 +235,7 @@ export default function MarkaSubscrifyPage() {
             <p className="eyebrow">Publisher</p>
             <p className="mt-3 max-w-3xl text-[14.5px] leading-relaxed text-bone-300">
               This app is published and supported by{' '}
-              <strong className="text-bone-100">{site.legal}</strong>, trading as {site.brand}, from our
+              <strong className="text-bone-100">{site.legal}</strong>, trading as House of Marka, from our
               registered office at {site.address.inline}. The same entity operates this website and every
               consulting engagement on it.
             </p>

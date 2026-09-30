@@ -6,6 +6,7 @@
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
   }
   body {
     @apply bg-ink-950 font-sans text-bone-200;
@@ -225,4 +226,17 @@
   outline: 2px solid rgba(216, 182, 106, 0.7);
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* Honour the OS "reduce motion" setting everywhere, including CSS animations
+   (marquee, fade-ups, pulses) that no component-level check reaches. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 /** Single-open accordion. The first item is open on load. */
 export default function Accordion({ items }: { items: { q: string; a: string }[] }) {
-  const [open, setOpen] = useState(0);
+  const [open, setOpen] = useState<number | null>(0);
 
   return (
     <div className="divide-y divide-white/[0.07] border-y border-white/[0.07]">
@@ -16,7 +16,7 @@ export default function Accordion({ items }: { items: { q: string; a: string }[]
             <button
               className="flex w-full items-start justify-between gap-6 py-6 text-left"
               aria-expanded={isOpen}
-              onClick={() => setOpen(isOpen ? -1 : i)}
+              onClick={() => setOpen(isOpen ? null : i)}
             >
               <span className="font-display text-lg font-medium text-bone-50 md:text-xl">
                 {item.q}

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import type { FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import { site } from '@/lib/site';
 
 const FIELD =
@@ -21,33 +21,60 @@ const services = [
 const budgets = ['Under $25k', '$25k–$75k', '$75k–$200k', '$200k+', 'To be determined'];
 
 export default function ContactForm() {
+  const [sent, setSent] = useState(false);
+
   /**
    * The site is a static export, so there is no endpoint to post to. Rather than
    * pretend to submit, compose the enquiry as a mailto: and hand it to the
-   * visitor's own mail client — the note under the button says so plainly.
+   * visitor's own mail client — the note under the button says so plainly —
+   * then swap the form for a confirmation with a way back to it.
    */
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    const get = (k: string) => String(data.get(k) ?? '').trim();
-
-    const company = get('company');
-    const subject = `Project enquiry — ${company || get('name') || 'new enquiry'}`;
     const body = [
-      `Name: ${get('name')}`,
-      `Company: ${company || '—'}`,
-      `Email: ${get('email')}`,
-      `Country: ${get('country') || '—'}`,
-      `Needs: ${get('service')}`,
-      `Budget: ${get('budget')}`,
-      '',
-      'The project:',
-      get('message'),
+      `Name: ${data.get('name')}`,
+      `Company: ${data.get('company')}`,
+      `Email: ${data.get('email')}`,
+      `Country: ${data.get('country')}`,
+      `Service: ${data.get('service')}`,
+      `Budget: ${data.get('budget')}`,
+      '\nProject:',
+      String(data.get('message') ?? ''),
     ].join('\n');
-
-    window.location.href = `mailto:${site.tech}?subject=${encodeURIComponent(
-      subject,
+    const href = `mailto:${site.sales}?subject=${encodeURIComponent(
+      `New project enquiry — ${data.get('company') || data.get('name')}`,
     )}&body=${encodeURIComponent(body)}`;
+    window.location.href = href;
+    setSent(true);
+  }
+
+  if (sent) {
+    return (
+      <div className="card grain flex min-h-[420px] flex-col items-center justify-center p-10 text-center">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="11" stroke="#d8b66a" strokeOpacity="0.4" />
+          <path
+            d="M7.5 12.5l3 3 6-7"
+            stroke="#d8b66a"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <h3 className="h-display mt-6 text-2xl text-bone-50">Your email client is opening.</h3>
+        <p className="mt-3 max-w-sm text-[14.5px] leading-relaxed text-bone-400">
+          If nothing happened, write to{' '}
+          <a href={`mailto:${site.sales}`} className="text-bone-100 underline underline-offset-4">
+            {site.sales}
+          </a>{' '}
+          directly. We reply within one working day.
+        </p>
+        <button className="btn-ghost mt-8" onClick={() => setSent(false)}>
+          Back to the form
+        </button>
+      </div>
+    );
   }
 
   return (
@@ -57,13 +84,13 @@ export default function ContactForm() {
           <label htmlFor="name" className={LABEL}>
             Name
           </label>
-          <input id="name" required placeholder="Jane Okafor" className={FIELD} name="name" />
+          <input id="name" name="name" required placeholder="Jane Okafor" className={FIELD} />
         </div>
         <div>
           <label htmlFor="company" className={LABEL}>
             Company
           </label>
-          <input id="company" placeholder="Acme Retail Group" className={FIELD} name="company" />
+          <input id="company" name="company" placeholder="Acme Retail Group" className={FIELD} />
         </div>
         <div>
           <label htmlFor="email" className={LABEL}>
@@ -71,18 +98,18 @@ export default function ContactForm() {
           </label>
           <input
             id="email"
+            name="email"
             type="email"
             required
             placeholder="jane@acme.com"
             className={FIELD}
-            name="email"
           />
         </div>
         <div>
           <label htmlFor="country" className={LABEL}>
             Country
           </label>
-          <input id="country" placeholder="United Kingdom" className={FIELD} name="country" />
+          <input id="country" name="country" placeholder="United Kingdom" className={FIELD} />
         </div>
         <div>
           <label htmlFor="service" className={LABEL}>
@@ -139,8 +166,8 @@ export default function ContactForm() {
 
       <p className="mt-4 text-[12.5px] leading-relaxed text-bone-400">
         This opens your email client with the details filled in, addressed to{' '}
-        <a href={`mailto:${site.tech}`} className="underline underline-offset-4 hover:text-bone-200">
-          {site.tech}
+        <a href={`mailto:${site.sales}`} className="underline underline-offset-4 hover:text-bone-200">
+          {site.sales}
         </a>
         . We use what you send only to reply to this enquiry — see our{' '}
         <Link className="underline underline-offset-4 hover:text-bone-200" href="/privacy/">

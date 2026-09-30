@@ -1,6 +1,6 @@
 'use client';
 
-import { useReducedMotion } from 'framer-motion';
+import type Lenis from 'lenis';
 import { useEffect } from 'react';
 
 /**
@@ -9,36 +9,35 @@ import { useEffect } from 'react';
  * someone who set that preference is exactly the wrong answer.
  */
 export default function SmoothScroll() {
-  const reduced = useReducedMotion();
-
   useEffect(() => {
-    if (reduced) return;
+    let lenis: Lenis | undefined;
+    let raf = 0;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let cancelled = false;
-    let raf = 0;
-    let lenis: { raf: (t: number) => void; destroy: () => void } | null = null;
-
-    (async () => {
-      const { default: Lenis } = await import('lenis');
+    import('lenis').then(({ default: LenisCtor }) => {
       if (cancelled) return;
-      lenis = new Lenis({
-        duration: 1.05,
-        easing: (t: number) => 1 - Math.pow(1 - t, 3),
+      const instance = new LenisCtor({
+        duration: 1.1,
+        // Exponential ease-out, clamped: 1.001 - 2^(-10t) overshoots 1 by 0.001.
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
+        touchMultiplier: 1.6,
       });
+      lenis = instance;
       const loop = (time: number) => {
-        lenis?.raf(time);
+        instance.raf(time);
         raf = requestAnimationFrame(loop);
       };
       raf = requestAnimationFrame(loop);
-    })();
+    });
 
     return () => {
       cancelled = true;
       cancelAnimationFrame(raf);
       lenis?.destroy();
     };
-  }, [reduced]);
+  }, []);
 
   return null;
 }

@@ -104,17 +104,29 @@ near zero. There is a comment in the file saying so.
 
 ## Deploying
 
+**Every push to `main` deploys automatically** to houseofmarka.com through
+`.github/workflows/deploy.yml`. Check progress under the repository's **Actions** tab;
+a run takes about three minutes.
+
+The workflow builds the site, signs in to Azure with GitHub's OIDC token (a federated
+credential on a managed identity that can only manage the Static Web App), fetches the
+deployment token at run time, and publishes `./out`. **No secrets are stored in GitHub** —
+the repository only holds five non-secret variables under *Settings → Secrets and variables
+→ Actions → Variables*: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`,
+`AZURE_SWA_NAME` and `AZURE_RESOURCE_GROUP`.
+
+To redeploy without a code change, open **Actions → Deploy to Azure Static Web Apps → Run
+workflow**.
+
+Manual deploys still work if you ever need one:
+
 ```bash
 npm run build
 npx swa deploy ./out --env production --deployment-token <TOKEN>
 ```
 
 The token comes from the Azure Portal under the Static Web App's **Manage deployment token**.
-Never commit it — `.gitignore` covers the usual places it ends up.
-
-Connecting this repository to the Static Web App under *Deployment* in the Azure Portal is
-the better long-term setup: every push to `main` then deploys automatically, with preview
-environments for pull requests.
+Never commit it.
 
 ## Accessibility and SEO
 

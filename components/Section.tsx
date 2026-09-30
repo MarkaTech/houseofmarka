@@ -28,13 +28,16 @@ export function SectionHead({
   eyebrow,
   title,
   copy,
+  center = false,
 }: {
   eyebrow: string;
   title: string;
   copy?: string;
+  /** Centre the block and its text — used for the full-width interlude sections. */
+  center?: boolean;
 }) {
   return (
-    <div className="max-w-2xl">
+    <div className={center ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl'}>
       <Reveal>
         <p className="eyebrow">{eyebrow}</p>
       </Reveal>

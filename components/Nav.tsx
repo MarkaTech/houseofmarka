@@ -1,39 +1,29 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Logo from '@/components/Logo';
+import Magnetic from '@/components/Magnetic';
 import { nav, site } from '@/lib/site';
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  /* Close the overlay whenever the route changes — otherwise tapping a link
-     navigates underneath a menu that is still covering the page. */
+  /* Lock the page behind the overlay. Every link in the overlay (and the logo)
+     closes it on click, which also releases the lock before navigating. */
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
-  /* Lock the page behind the overlay. */
-  useEffect(() => {
-    if (!open) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = previous;
-    };
+    document.body.style.overflow = open ? 'hidden' : '';
   }, [open]);
 
+  /* Escape closes the menu — the one accessibility addition over the original. */
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -47,18 +37,18 @@ export default function Nav() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-apple ${
-          scrolled
+          scrolled || open
             ? // The bracket syntax here is load-bearing. Tailwind only generates
               // opacity modifiers that sit on its own scale, so writing this
               // value bare — as a plain /72 suffix — compiles to nothing at all,
               // silently, and the sticky header loses its background.
-              'border-b border-white/[0.07] bg-ink-950/[0.72] backdrop-blur-xl'
+              'border-b border-white/[0.06] bg-ink-950/[0.72] backdrop-blur-2xl'
             : 'border-b border-transparent bg-transparent'
         }`}
       >
         <div className="shell flex h-16 items-center justify-between md:h-[72px]">
-          <Link aria-label={`${site.brand} home`} href="/">
-            <Logo />
+          <Link aria-label={`${site.brand} home`} href="/" onClick={() => setOpen(false)}>
+            <Logo className="h-7 w-7" />
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex">
@@ -74,12 +64,9 @@ export default function Nav() {
           </nav>
 
           <div className="hidden md:block">
-            <Link
-              className="inline-block transition-transform duration-200 ease-out btn-primary !px-5 !py-2.5 !text-[13.5px]"
-              href="/contact/"
-            >
+            <Magnetic href="/contact/" className="btn-primary !px-5 !py-2.5 !text-[13.5px]" strength={0.25}>
               Start a project
-            </Link>
+            </Magnetic>
           </div>
 
           <button
@@ -106,7 +93,7 @@ export default function Nav() {
 
       <div
         className={`fixed inset-0 z-40 bg-ink-950/[0.97] backdrop-blur-2xl transition-all duration-500 ease-apple md:hidden ${
-          open ? 'opacity-100' : 'pointer-events-none opacity-0'
+          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
         }`}
       >
         <div className="shell flex h-full flex-col justify-center gap-1 pb-20">

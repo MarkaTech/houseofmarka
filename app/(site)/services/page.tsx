@@ -84,13 +84,12 @@ export default function ServicesPage() {
       ))}
 
       <Section className="border-t border-white/[0.06]">
-        <div className="mx-auto text-center">
-          <SectionHead
-            eyebrow="Engagement models"
-            title="Three ways to work with us."
-            copy="We will tell you which one your problem needs — including when the answer is a smaller engagement than you asked for."
-          />
-        </div>
+        <SectionHead
+          center
+          eyebrow="Engagement models"
+          title="Three ways to work with us."
+          copy="We will tell you which one your problem needs — including when the answer is a smaller engagement than you asked for."
+        />
         <div className="mt-16 grid gap-5 lg:grid-cols-3">
           {engagements.map((e, i) => (
             <Reveal key={e.name} delay={i * 0.07}>
