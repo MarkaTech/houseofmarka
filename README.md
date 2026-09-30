@@ -118,6 +118,12 @@ the repository only holds five non-secret variables under *Settings → Secrets 
 To redeploy without a code change, open **Actions → Deploy to Azure Static Web Apps → Run
 workflow**.
 
+If the **Sign in to Azure (OIDC)** step fails with `AADSTS700213`, Azure no longer recognises
+the run. The deploy identity trusts pushes to `main` of this exact repository only, so renaming
+or transferring the repository, or deploying from another branch, means updating its federated
+credential (Azure Portal → Managed Identities → `id-github-houseofmarka-deploy` → Federated
+credentials) to the subject printed in that step's log.
+
 Manual deploys still work if you ever need one:
 
 ```bash
