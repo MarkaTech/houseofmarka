@@ -9,14 +9,14 @@ const servicesLinks = [
   { href: '/services/#consulting', label: 'Research & consulting' },
   { href: '/services/#automation', label: 'Automations' },
   { href: '/services/#ai', label: 'Applied AI' },
-  { href: '/services/#apps', label: 'Product engineering' },
+  { href: '/services/#apps', label: 'Android & iOS apps' },
   { href: '/services/#commerce', label: 'Commerce systems' },
   { href: '/services/#platform', label: 'Cloud & data' },
   { href: '/marketplaces/', label: 'Marketplace integration' },
 ];
 
 const companyLinks = [
-  { href: '/apps/', label: 'Products' },
+  { href: '/apps/', label: 'All apps' },
   { href: '/apps/marka-bundles/', label: 'Marka Bundles & Upsells' },
   { href: '/apps/marka-order-printer/', label: 'Marka Order Printer Invoice' },
   { href: '/apps/marka-subscrify/', label: 'Marka Subscrify' },
@@ -46,8 +46,8 @@ export default function Footer() {
               <Logo className="h-8 w-8" />
             </Link>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-bone-400">
-              The engineering studio of {site.legal}. Applied AI, product engineering and commerce
-              infrastructure for teams in the US, UK and Europe.
+              A house of apps from {site.legal}: Shopify apps, Android and iOS apps, and a SaaS
+              platform — plus applied AI and commerce engineering for teams in the US, UK and Europe.
             </p>
             <div className="mt-6 space-y-2">
               <a
