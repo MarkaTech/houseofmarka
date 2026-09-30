@@ -53,7 +53,10 @@ export default function Magnetic({
       onMouseLeave={() => {
         if (ref.current) ref.current.style.transform = 'translate(0, 0)';
       }}
-      className={`inline-block transition-transform duration-200 ease-out ${className}`}
+      // inline-flex, not inline-block: utilities outrank the .btn-* component
+      // classes, and inline-block would cancel their flex row, dropping the
+      // arrow icon (display:block via preflight) onto a line of its own.
+      className={`inline-flex transition-transform duration-200 ease-out ${className}`}
       style={style}
     >
       {children}
