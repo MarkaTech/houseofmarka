@@ -10,7 +10,7 @@ import QuoteRotator from '@/components/QuoteRotator';
 import Reveal from '@/components/Reveal';
 import Section, { SectionHead } from '@/components/Section';
 import { getPosts } from '@/lib/blog';
-import { capabilities, faqs, marketplaces, metrics, process, services, work } from '@/lib/site';
+import { capabilities, faqs, houseOfApps, marketplaces, metrics, process, services, work } from '@/lib/site';
 
 function Arrow({ size = 13 }: { size?: number }) {
   return (
@@ -82,7 +82,35 @@ export default function HomePage() {
         </div>
       </div>
 
-      <Section>
+      {/* The house of apps — what House of Marka is, stated before anything else. */}
+      <Section id="apps">
+        <SectionHead
+          eyebrow="A house of apps"
+          title="Shopify apps, Android and iOS apps, and a SaaS platform — under one roof."
+          copy="House of Marka is a house of many apps. We publish our own Shopify apps, build Android and iOS apps for anyone with an idea worth shipping, and run a SaaS platform of our own — all engineered by the same senior team."
+        />
+        <div className="mt-14 grid gap-5 md:grid-cols-2">
+          {houseOfApps.map((a, i) => (
+            <Reveal key={a.id} delay={i * 0.06}>
+              <Link href={a.href} className="group block h-full">
+                <div className="card card-hover grain flex h-full flex-col p-8 md:p-10">
+                  <p className="eyebrow">{a.kicker}</p>
+                  <h3 className="h-display mt-4 text-[24px] md:text-[28px]">
+                    <span className="text-gradient">{a.title}</span>
+                  </h3>
+                  <p className="mt-4 text-[14.5px] leading-relaxed text-bone-300">{a.copy}</p>
+                  <span className="mt-auto inline-flex items-center gap-1.5 pt-7 text-[13px] font-medium text-bone-200 transition-all duration-300 group-hover:gap-3 group-hover:text-white">
+                    {a.cta}
+                    <Arrow />
+                  </span>
+                </div>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      <Section className="border-t border-white/[0.06]">
         <div className="grid gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {metrics.map((m, i) => (
             <Reveal key={m.label} delay={i * 0.07}>
