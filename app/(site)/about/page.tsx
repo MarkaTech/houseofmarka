@@ -8,7 +8,7 @@ import { metrics, site } from '@/lib/site';
 export const metadata: Metadata = {
   title: 'Company',
   description:
-    'The engineering studio of Marka Modern Retail Private Limited — a senior product and AI team serving clients across the US, UK and Europe from Gurugram, India.',
+    'House of Marka, a house of apps from Marka Modern Retail Private Limited: Shopify apps, Android and iOS apps and a SaaS platform, built in Gurugram, India.',
 };
 
 const principles = [
@@ -75,6 +75,10 @@ const trajectory = [
     copy: 'A dedicated AI practice — agents, retrieval and evaluation — built on the current generation of frontier reasoning models.',
   },
   {
+    title: 'A house of apps',
+    copy: 'Our own Shopify apps on the Shopify App Store, Android and iOS apps built to order, and a SaaS platform of our own — the studio becomes a house of apps.',
+  },
+  {
     title: 'Today',
     copy: '180+ products shipped, clients across 14 countries and an operating practice that keeps systems running long after launch.',
   },
@@ -83,6 +87,7 @@ const trajectory = [
 const governance: [string, string][] = [
   ['Legal entity', site.legal],
   ['Trading brand', site.brand],
+  ['What we make', 'Shopify apps · Android and iOS apps · a SaaS platform'],
   ['Registered office', site.address.inline],
   ['Primary markets', 'United States · United Kingdom · European Union'],
   ['Data protection', 'GDPR and UK GDPR compliant; DPAs available on request'],
@@ -95,8 +100,8 @@ export default function AboutPage() {
     <>
       <PageHero
         eyebrow="Company"
-        title="House of Marka is where the group builds software that runs."
-        copy="Marka Modern Retail Private Limited is a modern retail and technology group. House of Marka is its engineering studio — the team that designs, builds and operates the software behind the group’s own products and those of its clients."
+        title="House of Marka is a house of apps."
+        copy="Marka Modern Retail Private Limited is a modern retail and technology group. House of Marka is where it builds apps: our own Shopify apps, Android and iOS apps for clients, and a SaaS platform of our own — designed, built and operated by one senior team."
       />
 
       <Section className="!pt-4">
