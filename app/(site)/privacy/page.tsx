@@ -30,28 +30,24 @@ export default function PrivacyPage() {
             separate data processing agreement.
           </p>
           {/*
-            The three app policies are separate documents with separate scopes.
-            This cross-reference is what stops a reader (or an app reviewer)
-            assuming the website policy governs shopper data inside the apps —
-            and it states the shared legal entity explicitly, because Shopify
-            review checks that the publisher named here matches the listing.
+            The app policies are separate documents with separate scopes. This
+            cross-reference is what stops a reader (or an app reviewer) assuming
+            the website policy governs shopper data inside the apps — and it
+            states the shared legal entity explicitly, because Shopify review
+            checks that the publisher named here matches the listing.
           */}
           <p>
             <strong>This policy covers this website only.</strong> Our Shopify apps process merchant and
             shopper data under their own separate policies:{' '}
-            <a href="/apps/marka-order-printer/privacy/" className={link}>
-              Marka Order Printer Invoice
+            <a href="https://reviewmaster-app.azurewebsites.net/privacy" className={link} rel="noopener noreferrer">
+              Marka Reviews
             </a>
             ,{' '}
             <a href="/apps/marka-bundles/privacy/" className={link}>
               Marka Bundles &amp; Upsells
             </a>{' '}
-            and{' '}
-            <a href="/apps/marka-subscrify/privacy/" className={link}>
-              Marka Subscrify
-            </a>
-            . All three are published by the same legal entity as this website and share our registered
-            office.
+            and Marka Cart, whose policy is published with its App Store listing. All are published by the
+            same legal entity as this website and share our registered office.
           </p>
         </section>
 
