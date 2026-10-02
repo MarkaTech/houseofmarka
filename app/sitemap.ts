@@ -1,8 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import type { MetadataRoute } from 'next';
-import { site, work } from '@/lib/site';
+import { dynamicApps } from '@/lib/apps';
 import { getPosts } from '@/lib/blog';
+import { servicePages } from '@/lib/services';
+import { site, work } from '@/lib/site';
 
 export const dynamic = 'force-static';
 
@@ -38,15 +40,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const routes = [
     ...staticRoutes(),
+    ...servicePages.map((s) => `/services/${s.slug}`),
+    ...dynamicApps.flatMap((a) => [`/apps/${a.slug}`, `/apps/${a.slug}/support`]),
     ...work.map((w) => `/work/${w.slug}`),
     ...posts.map((p) => `/insights/${p.slug}`),
   ].sort();
 
-  // The house of apps is what the site leads with, so the app pages rank just
+  // The apps and the services are what the site sells, so those pages rank just
   // below the home page. Legal and support documents stay at the default.
   const priorityFor = (r: string) => {
     if (r === '') return 1;
-    if (r === '/apps' || /^\/apps\/[^/]+$/.test(r) || r === '/services' || r === '/about') return 0.9;
+    if (r === '/apps' || /^\/apps\/[^/]+$/.test(r) || /^\/services(\/[^/]+)?$/.test(r) || r === '/about') return 0.9;
     return 0.7;
   };
 
