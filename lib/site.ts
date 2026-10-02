@@ -10,7 +10,7 @@ export const site = {
   legal: 'Marka Modern Retail Private Limited',
   domain: 'houseofmarka.com',
   url: 'https://houseofmarka.com',
-  tagline: 'A house of apps: Shopify, Android, iOS and SaaS.',
+  tagline: 'One-stop app development: Shopify, iOS, Android and custom software.',
   /**
    * The one-sentence answer to "what is House of Marka?". It is the home page meta
    * description, the Organization schema description and the llms.txt summary, so
@@ -18,7 +18,7 @@ export const site = {
    * 160 characters.
    */
   description:
-    'House of Marka is a house of apps: our own Shopify apps, Android and iOS apps built to order, and a SaaS platform, plus applied AI for the US, UK and Europe.',
+    'House of Marka builds Shopify, iOS and Android apps and custom software to order, and makes its own Shopify apps: Marka Reviews, Marka Cart and Marka Bundles.',
   email: 'support@houseofmarka.com',
   sales: 'tech@houseofmarka.com',
   tech: 'tech@houseofmarka.com',
@@ -89,22 +89,12 @@ export const marketplaces = [
   'Rakuten',
 ];
 
-/** The seven practices, in the order /services/ lists them. `id` is the anchor. */
+/**
+ * The wider practices, in the order /services/ lists them below the service pages.
+ * `id` is the anchor. Shopify, mobile apps and custom software each have a page of
+ * their own in lib/services.ts and are not repeated here.
+ */
 export const services = [
-  {
-    id: 'shopify',
-    kicker: 'Shopify',
-    title: 'Shopify apps & themes, built like products',
-    blurb:
-      'Public and private Shopify apps, checkout extensions and conversion-focused themes — including our own three App Store apps. Built to pass app review the first time, and to survive theme updates after it.',
-    points: [
-      'Public & private app development — Remix, Polaris, App Bridge',
-      'Theme building, customisation and Online Store 2.0 migrations',
-      'Checkout UI extensions and Shopify Functions',
-      'App Store listing, review compliance and Shopify billing',
-      'Privacy-first architecture: GDPR webhooks done properly',
-    ],
-  },
   {
     id: 'consulting',
     kicker: 'Research & Consulting',
@@ -148,20 +138,6 @@ export const services = [
     ],
   },
   {
-    id: 'apps',
-    kicker: 'Android & iOS Apps',
-    title: 'Your app, built and shipped for you',
-    blurb:
-      'Have an idea for an Android or iOS app? We design and build it — native Swift and Kotlin, React Native or Flutter — from first wireframe to Play Store and App Store release, and the maintenance after it. Get in touch and tell us what you want built.',
-    points: [
-      'Native Swift & Kotlin, React Native, Flutter',
-      'Next.js and React web platforms at scale',
-      'Design systems, motion and accessibility (WCAG 2.2 AA)',
-      'App Store and Play Store submission and compliance',
-      'Observability, crash budgets and release engineering',
-    ],
-  },
-  {
     id: 'commerce',
     kicker: 'Commerce Systems',
     title: 'Merchants connected to every channel',
@@ -192,29 +168,19 @@ export const services = [
 ];
 
 /**
- * The four kinds of app House of Marka puts its name on — the "house of apps"
- * section on the home page and /apps/. Shopify apps are our own, published on the
- * Shopify App Store; Android and iOS apps are built to order for whoever wants one;
- * the SaaS platform is our own and has no public name yet, so none is invented here.
+ * The four kinds of app House of Marka builds to order — the "any app, built for
+ * you" cards on /apps/. Each links to the service page that sells it; the apps we
+ * make ourselves live in lib/apps.ts.
  */
 export const houseOfApps = [
   {
     id: 'shopify',
-    kicker: 'Shopify apps',
-    title: 'Our own Shopify apps',
+    kicker: 'Custom Shopify apps',
+    title: 'A Shopify app, built for your store',
     copy:
-      'Published on the Shopify App Store by Marka Modern Retail Private Limited. Featured: Marka Bundles & Upsells — quantity breaks, bundles, BOGO and upsells priced correctly at checkout, with no shopper data stored.',
-    href: '/apps/marka-bundles/',
-    cta: 'See Marka Bundles & Upsells',
-  },
-  {
-    id: 'android',
-    kicker: 'Android apps',
-    title: 'Android apps, built for you',
-    copy:
-      'Native Kotlin, or cross-platform in React Native and Flutter. We take your idea from first wireframe to Google Play release, and look after it once it is live.',
-    href: '/contact/',
-    cta: 'Get your Android app built',
+      'The integration, pricing rule, admin tool or storefront feature the App Store does not sell — installed on your store only, owned by you, built by the team behind Marka Reviews.',
+    href: '/services/custom-shopify-apps/',
+    cta: 'Get a custom Shopify app built',
   },
   {
     id: 'ios',
@@ -222,17 +188,26 @@ export const houseOfApps = [
     title: 'iPhone and iPad apps, built for you',
     copy:
       'Native Swift and SwiftUI, designed to Apple’s guidelines and shipped through App Store review — with release engineering that keeps every update smooth.',
-    href: '/contact/',
+    href: '/services/ios-app-development/',
     cta: 'Get your iOS app built',
   },
   {
-    id: 'saas',
-    kicker: 'SaaS platform',
-    title: 'A SaaS platform of our own',
+    id: 'android',
+    kicker: 'Android apps',
+    title: 'Android apps, built for you',
     copy:
-      'Cloud software that we build, host and support ourselves, on the same engineering standards as every app in the house. Write to us to hear more.',
-    href: '/contact/',
-    cta: 'Ask about the platform',
+      'Native Kotlin and Jetpack Compose, or cross-platform in React Native and Flutter. From first wireframe to Google Play release, and looked after once it is live.',
+    href: '/services/android-app-development/',
+    cta: 'Get your Android app built',
+  },
+  {
+    id: 'software',
+    kicker: 'Custom software & SaaS',
+    title: 'Software for the process nobody sells a product for',
+    copy:
+      'Web platforms, SaaS products, internal tools, integrations and AI features — scoped at a fixed fee, built by a senior team, and owned by you.',
+    href: '/services/custom-software-development/',
+    cta: 'Get custom software built',
   },
 ];
 
@@ -524,7 +499,7 @@ export const engagements: {
 /**
  * The home-page FAQ accordion (also emitted as FAQPage JSON-LD).
  *
- * The first four are written for answer engines: each question is phrased the way
+ * The first seven are written for answer engines: each question is phrased the way
  * people ask it, and each answer opens with a complete, quotable sentence that
  * names House of Marka — so a snippet lifted out of context still makes sense.
  */
@@ -532,22 +507,37 @@ export const faqs = [
   {
     q: 'What is House of Marka?',
     a:
-      'House of Marka is a house of apps: we publish our own Shopify apps, build Android and iOS apps for clients, and develop a SaaS platform of our own. It is the trading name of Marka Modern Retail Private Limited, based in Gurugram, India, and it also offers applied AI, product engineering and marketplace integration to teams in the US, UK and Europe.',
+      'House of Marka is a one-stop app development company: it builds Shopify apps, iOS apps, Android apps and custom software to order, customises and speeds up Shopify stores, and makes its own Shopify apps — Marka Reviews, Marka Cart and Marka Bundles & Upsells. It is the trading name of Marka Modern Retail Private Limited, based in Gurugram, India, working with teams in the US, UK and Europe.',
   },
   {
-    q: 'Which Shopify apps does House of Marka publish?',
+    q: 'Which Shopify apps does House of Marka make?',
     a:
-      'House of Marka publishes its own apps on the Shopify App Store, including Marka Bundles & Upsells — quantity breaks, fixed bundles, mix & match, BOGO, add-on upsells and frequently bought together, priced correctly at checkout by Shopify Functions and storing no shopper personal data. Every app, with its privacy policy and terms, is listed on our Apps page.',
+      'Three. Marka Reviews is a product reviews app on the Shopify App Store that sends review requests after fulfilment and marks only real-order reviews as verified. Marka Cart is a slide-out cart drawer with in-cart upsells, a free-shipping bar, discount codes, cart notes and sticky add-to-cart. Marka Bundles & Upsells adds quantity breaks, bundles, mix & match, BOGO and upsells, priced at checkout by Shopify Functions. Marka Cart and Marka Bundles are coming to the App Store; early access is available on request.',
   },
   {
-    q: 'Can House of Marka build an Android or iOS app for me?',
+    q: 'Can House of Marka build a custom Shopify app for my store?',
     a:
-      'Yes. House of Marka designs and builds Android and iOS apps to order — native Kotlin and Swift, or cross-platform in React Native and Flutter — from first wireframe to Google Play and App Store release, and maintains them afterwards. Tell us what you want built at tech@houseofmarka.com or through the contact page.',
+      'Yes. House of Marka builds custom (private) Shopify apps for a single store — ERP and warehouse integrations, custom pricing and checkout rules with Shopify Functions, admin tools and storefront features — as well as public apps for the Shopify App Store. Most custom apps are live within four to six weeks of a fixed-fee discovery.',
   },
   {
-    q: 'Does House of Marka have a SaaS platform?',
+    q: 'Does House of Marka build iOS and Android apps?',
     a:
-      'Yes. Alongside its Shopify apps, House of Marka develops its own SaaS (software-as-a-service) platform — cloud software that it builds, hosts and supports itself. For details, write to tech@houseofmarka.com.',
+      'Yes. House of Marka designs and builds iOS and Android apps for anyone with an idea — native Swift and Kotlin, or cross-platform in React Native and Flutter — from first wireframe to App Store and Google Play release, and maintains them afterwards. Tell us what you want built at tech@houseofmarka.com or through the contact page.',
+  },
+  {
+    q: 'Can House of Marka customise my Shopify website or build a headless store?',
+    a:
+      'Yes. House of Marka customises any Shopify website in any way — themes, sections, product pages, migrations, Shopify Plus checkout and B2B — and builds headless storefronts on Shopify Hydrogen or Next.js when a theme is not enough. Customisations are built on Online Store 2.0 so they survive theme updates.',
+  },
+  {
+    q: 'Can House of Marka make my Shopify store faster?',
+    a:
+      'Yes. House of Marka offers Shopify speed and page optimisation: an audit of theme, apps, images and scripts ranked by impact, then the fixes that move Largest Contentful Paint, Interaction to Next Paint and layout shift — reported as before-and-after Core Web Vitals from real users.',
+  },
+  {
+    q: 'Does House of Marka build custom software?',
+    a:
+      'Yes. House of Marka builds custom software of any kind — web platforms and SaaS products, internal tools, integrations, automations and applied AI — scoped in a fixed-fee discovery sprint, built by a senior team, and owned by the client on payment.',
   },
   {
     q: 'How do you price work?',
