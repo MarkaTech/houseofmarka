@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Sora } from 'next/font/google';
 import SmoothScroll from '@/components/SmoothScroll';
+import { apps } from '@/lib/apps';
+import { servicePages } from '@/lib/services';
 import { site } from '@/lib/site';
 import './globals.css';
 
@@ -22,21 +24,24 @@ const ogTitle = `${site.brand} — ${site.tagline}`;
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.brand} — Shopify apps, Android & iOS apps, SaaS`,
+    default: `${site.brand} — Shopify, iOS & Android App Development`,
     template: `%s — ${site.brand}`,
   },
   description: site.description,
   keywords: [
     'House of Marka',
-    'house of apps',
-    'Shopify apps',
-    'Shopify app developer',
-    'Android app development',
+    'app development company',
+    'Shopify app development',
+    'custom Shopify app',
+    'Shopify store customisation',
+    'Shopify Hydrogen headless',
+    'Shopify speed optimisation',
     'iOS app development',
-    'mobile app development company',
-    'SaaS platform',
-    'AI development company',
-    'marketplace integration',
+    'Android app development',
+    'custom software development',
+    'Marka Reviews',
+    'Marka Cart',
+    'Marka Bundles',
     'Marka Modern Retail',
   ],
   authors: [{ name: site.legal }],
@@ -105,13 +110,10 @@ const organisationLd = {
   image: `${site.url}/og.png`,
   sameAs: ['https://github.com/MarkaTech'],
   // What the house makes — the entity facts answer engines lift when asked what
-  // House of Marka is. Only named products appear here; the SaaS platform has no
-  // public name yet, so it is described in visible copy instead.
+  // House of Marka is. Generated from the same data as the app and service pages,
+  // so a product cannot appear here without a page to back it.
   knowsAbout: [
-    'Shopify app development',
-    'Android app development',
-    'iOS app development',
-    'Software as a service (SaaS)',
+    ...servicePages.map((s) => s.serviceType),
     'Applied AI',
     'Marketplace integration',
     'E-commerce engineering',
@@ -120,43 +122,27 @@ const organisationLd = {
     '@type': 'OfferCatalog',
     name: 'House of Marka apps and services',
     itemListElement: [
-      {
+      ...apps.map((a) => ({
         '@type': 'Offer',
         itemOffered: {
           '@type': 'SoftwareApplication',
-          name: 'Marka Bundles & Upsells',
+          '@id': `${site.url}/apps/${a.slug}/#app`,
+          name: a.name,
           applicationCategory: 'BusinessApplication',
           operatingSystem: 'Shopify',
-          url: `${site.url}/apps/marka-bundles/`,
+          url: `${site.url}/apps/${a.slug}/`,
         },
-      },
-      {
+      })),
+      ...servicePages.map((s) => ({
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Android app development',
-          serviceType: 'Mobile app development',
-          url: `${site.url}/services/#apps`,
+          '@id': `${site.url}/services/${s.slug}/#service`,
+          name: s.metaTitle,
+          serviceType: s.serviceType,
+          url: `${site.url}/services/${s.slug}/`,
         },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'iOS app development',
-          serviceType: 'Mobile app development',
-          url: `${site.url}/services/#apps`,
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Shopify app development',
-          serviceType: 'Software development',
-          url: `${site.url}/services/#shopify`,
-        },
-      },
+      })),
     ],
   },
   contactPoint: [

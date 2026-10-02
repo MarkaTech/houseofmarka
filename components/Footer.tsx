@@ -1,25 +1,21 @@
 import Link from 'next/link';
 import Logo from '@/components/Logo';
+import { apps } from '@/lib/apps';
+import { servicePages } from '@/lib/services';
 import { site, work } from '@/lib/site';
 
 const LINK = 'text-sm leading-snug text-bone-400 transition-colors duration-300 hover:text-bone-50';
 
 const servicesLinks = [
-  { href: '/services/#shopify', label: 'Shopify apps & themes' },
-  { href: '/services/#consulting', label: 'Research & consulting' },
-  { href: '/services/#automation', label: 'Automations' },
-  { href: '/services/#ai', label: 'Applied AI' },
-  { href: '/services/#apps', label: 'Android & iOS apps' },
-  { href: '/services/#commerce', label: 'Commerce systems' },
-  { href: '/services/#platform', label: 'Cloud & data' },
+  ...servicePages.map((s) => ({ href: `/services/${s.slug}/`, label: s.name })),
+  { href: '/services/#ai', label: 'Applied AI & automation' },
   { href: '/marketplaces/', label: 'Marketplace integration' },
+  { href: '/services/', label: 'All services' },
 ];
 
 const companyLinks = [
+  ...apps.map((a) => ({ href: `/apps/${a.slug}/`, label: a.name })),
   { href: '/apps/', label: 'All apps' },
-  { href: '/apps/marka-bundles/', label: 'Marka Bundles & Upsells' },
-  { href: '/apps/marka-order-printer/', label: 'Marka Order Printer Invoice' },
-  { href: '/apps/marka-subscrify/', label: 'Marka Subscrify' },
   { href: '/about/', label: 'Company' },
   { href: '/work/', label: 'Work' },
   { href: '/insights/', label: 'Insights' },
@@ -46,8 +42,9 @@ export default function Footer() {
               <Logo className="h-8 w-8" />
             </Link>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-bone-400">
-              A house of apps from {site.legal}: Shopify apps, Android and iOS apps, and a SaaS
-              platform — plus applied AI and commerce engineering for teams in the US, UK and Europe.
+              One-stop app development from {site.legal}: Shopify apps and stores, iOS and Android
+              apps and custom software, built to order for teams in the US, UK and Europe — and our own
+              Shopify apps, Marka Reviews, Marka Cart and Marka Bundles.
             </p>
             <div className="mt-6 space-y-2">
               <a
@@ -109,7 +106,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h2 className="eyebrow mb-4">Company</h2>
+            <h2 className="eyebrow mb-4">Apps &amp; company</h2>
             <ul className="space-y-2.5">
               {companyLinks.map((l) => (
                 <li key={l.href}>

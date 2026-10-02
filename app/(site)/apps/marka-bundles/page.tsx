@@ -4,6 +4,8 @@ import CTA from '@/components/CTA';
 import PageHero from '@/components/PageHero';
 import Reveal from '@/components/Reveal';
 import Section, { SectionHead } from '@/components/Section';
+import { AppStatus } from '@/components/AppCard';
+import { breadcrumbLd } from '@/lib/seo';
 import { site } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -25,17 +27,22 @@ const appLd = {
   operatingSystem: 'Shopify',
   description:
     'Bundle and upsell offers for Shopify merchants — quantity breaks, fixed bundles, mix & match, BOGO, add-on upsells and frequently bought together.',
-  publisher: { '@type': 'Organization', name: site.legal, url: site.url },
-  offers: {
-    '@type': 'Offer',
-    description: 'Free plan available; paid plans include a 30-day free trial, billed through Shopify.',
-  },
+  url: `${site.url}/apps/marka-bundles/`,
+  publisher: { '@id': `${site.url}/#organization` },
 };
+
+const crumbs = breadcrumbLd([
+  { name: 'Home', path: '/' },
+  { name: 'Apps', path: '/apps/' },
+  { name: 'Marka Bundles & Upsells' },
+]);
+
+const earlyAccess = `mailto:${site.tech}?subject=${encodeURIComponent('Marka Bundles & Upsells — early access')}`;
 
 const stats: [string, string][] = [
   ['6', 'offer types, one widget'],
   ['0', 'shopper PII fields stored'],
-  ['30-day', 'free trial on every paid plan'],
+  ['Soon', 'on the Shopify App Store'],
 ];
 
 const offers = [
@@ -91,18 +98,17 @@ export default function MarkaBundlesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(appLd) }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
 
       <PageHero
-        eyebrow="Products · Shopify app"
+        eyebrow="Shopify app · Bundles & upsells"
         title="Marka Bundles & Upsells"
-        copy="Bundle and upsell offers that price correctly at checkout — built on Shopify Functions, rendered through a theme app extension, and designed around a radical idea: a merchandising app has no business storing your shoppers' personal data."
+        copy="Bundle and upsell offers that price correctly at checkout — built on Shopify Functions, rendered through a theme app extension, and designed around a radical idea: a merchandising app has no business storing your shoppers' personal data. Coming to the Shopify App Store; early access on request."
       >
+        <AppStatus status="coming-soon" className="mb-6" />
         <div className="flex flex-wrap items-center gap-3">
-          <a
-            href={`mailto:${site.support}?subject=Marka%20Bundles%20%26%20Upsells`}
-            className="btn-primary"
-          >
-            Talk to the team
+          <a href={earlyAccess} className="btn-primary">
+            Ask for early access
           </a>
           <Link href="/apps/marka-bundles/support/" className="btn-ghost">
             Support &amp; FAQs
@@ -189,7 +195,7 @@ export default function MarkaBundlesPage() {
 
       <CTA
         title="Want an app like this for your own idea?"
-        copy="Marka Bundles & Upsells is what our Shopify practice ships for itself. The same team builds public and private apps, themes and checkout extensions for clients."
+        copy="Marka Bundles & Upsells is what our Shopify practice ships for itself. The same team builds public and custom Shopify apps, iOS and Android apps and custom software for clients."
       />
     </>
   );

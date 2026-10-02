@@ -29,11 +29,7 @@ export default function TermsPage() {
             please do not use the site.
           </p>
           <p>
-            Our Shopify apps are governed by their own terms:{' '}
-            <a href="/apps/marka-order-printer/terms/" className={link}>
-              Marka Order Printer Invoice
-            </a>{' '}
-            and{' '}
+            Our Shopify apps are governed by their own terms, published with each app — for example{' '}
             <a href="/apps/marka-bundles/terms/" className={link}>
               Marka Bundles &amp; Upsells
             </a>

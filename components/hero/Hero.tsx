@@ -10,9 +10,9 @@ import { site } from '@/lib/site';
    static export would try to evaluate it at build time. */
 const MarkScene = dynamic(() => import('./MarkScene'), { ssr: false });
 
-/* The house of apps, in the order the site introduces them. The first word is what
-   the prerendered <h1> contains, so it is the one search engines read. */
-const WORDS = ['Shopify apps', 'Android apps', 'iOS apps', 'SaaS', 'AI agents'];
+/* What the house builds, in the order the site introduces them. The first word is
+   what the prerendered <h1> contains, so it is the one search engines read. */
+const WORDS = ['Shopify apps', 'iOS apps', 'Android apps', 'Shopify stores', 'custom software'];
 const ROTATE_MS = 2600;
 /** Scroll distance, in px, over which the scene and the scroll cue fade out. */
 const FADE_PX = 620;
@@ -147,9 +147,10 @@ export default function Hero() {
           </h1>
 
           <p className="lede mt-8 max-w-xl animate-fade-up" style={{ animationDelay: '300ms' }}>
-            House of Marka is a house of apps. We publish our own Shopify apps, build Android and iOS
-            apps for anyone with an idea, and run a SaaS platform of our own — with applied AI and
-            marketplace engineering for teams in the United States, United Kingdom and Europe.
+            House of Marka is a one-stop app development company. We build Shopify apps, iOS and
+            Android apps and custom software to order, customise and speed up Shopify stores, and make
+            our own Shopify apps — Marka Reviews, Marka Cart and Marka Bundles — for teams in the
+            United States, United Kingdom and Europe.
           </p>
 
           <div

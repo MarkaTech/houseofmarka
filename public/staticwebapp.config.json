@@ -11,12 +11,12 @@
   "routes": [
     {
       "route": "/privacy/marka-order-printer",
-      "redirect": "/apps/marka-order-printer/privacy/",
+      "redirect": "/apps/",
       "statusCode": 301
     },
     {
       "route": "/terms/marka-order-printer",
-      "redirect": "/apps/marka-order-printer/terms/",
+      "redirect": "/apps/",
       "statusCode": 301
     },
     {
@@ -31,25 +31,51 @@
     },
     {
       "route": "/privacy/marka-subscrify",
-      "redirect": "/apps/marka-subscrify/privacy/",
+      "redirect": "/apps/",
       "statusCode": 301
     },
     {
       "route": "/terms/marka-subscrify",
-      "redirect": "/apps/marka-subscrify/terms/",
+      "redirect": "/apps/",
+      "statusCode": 301
+    },
+    {
+      "route": "/apps/marka-order-printer/*",
+      "redirect": "/apps/",
+      "statusCode": 301
+    },
+    {
+      "route": "/apps/marka-subscrify/*",
+      "redirect": "/apps/",
+      "statusCode": 301
+    },
+    {
+      "route": "/apps/marka-order-printer",
+      "redirect": "/apps/",
+      "statusCode": 301
+    },
+    {
+      "route": "/apps/marka-subscrify",
+      "redirect": "/apps/",
       "statusCode": 301
     },
     {
       "route": "/_next/static/*",
-      "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
     },
     {
       "route": "/favicon.svg",
-      "headers": { "Cache-Control": "public, max-age=86400" }
+      "headers": {
+        "Cache-Control": "public, max-age=86400"
+      }
     }
   ],
   "responseOverrides": {
-    "404": { "rewrite": "/404.html" }
+    "404": {
+      "rewrite": "/404.html"
+    }
   },
   "mimeTypes": {
     ".json": "application/json",
