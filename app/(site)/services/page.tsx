@@ -3,12 +3,14 @@ import CTA from '@/components/CTA';
 import PageHero from '@/components/PageHero';
 import Reveal from '@/components/Reveal';
 import Section, { SectionHead } from '@/components/Section';
+import ServiceCard from '@/components/ServiceCard';
+import { servicePages } from '@/lib/services';
 import { engagements, process, services } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Services',
+  title: 'Services: Shopify, iOS, Android & Software',
   description:
-    'Shopify apps and themes, applied AI, research and consulting, automations, product engineering, commerce systems and cloud — for US, UK and EU clients.',
+    'One-stop app development by House of Marka: Shopify apps and stores, Hydrogen headless, speed optimisation, iOS and Android apps and custom software.',
 };
 
 const stack: [string, string][] = [
@@ -36,8 +38,31 @@ export default function ServicesPage() {
       <PageHero
         eyebrow="Services"
         title="Everything between the idea and the software that runs in production."
-        copy="Seven practices, one accountable team. We are deliberately focused: we do these things properly rather than everything adequately."
+        copy="One accountable team for the whole job: Shopify apps and stores, iOS and Android apps, custom software — and the research, automation, AI, commerce and cloud work around them. We are deliberately focused: we do these things properly rather than everything adequately."
       />
+
+      <Section className="!pt-4">
+        <SectionHead
+          eyebrow="What we build"
+          title="Eight things we are asked for most."
+          copy="Each has a page of its own: what we build, how long it takes, how it is priced, and the questions we are asked first."
+        />
+        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {servicePages.map((s, i) => (
+            <Reveal key={s.slug} delay={i * 0.05}>
+              <ServiceCard service={s} />
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      <Section className="border-t border-white/[0.06] !pb-0">
+        <SectionHead
+          eyebrow="Around the build"
+          title="The wider practices."
+          copy="Most of our work sits where these overlap — a Shopify app that needs real AI inside it, or a marketplace integration that has to survive a Black Friday."
+        />
+      </Section>
 
       {/*
         Each practice carries its own id: the header, the footer and the
@@ -51,7 +76,7 @@ export default function ServicesPage() {
         <Section
           key={s.id}
           id={s.id}
-          className={`border-t border-white/[0.06]${i === 0 ? ' !pt-20' : ''}`}
+          className={i === 0 ? '!pt-16' : 'border-t border-white/[0.06]'}
         >
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
             <div>
