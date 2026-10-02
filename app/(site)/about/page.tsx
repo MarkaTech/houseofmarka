@@ -8,7 +8,7 @@ import { metrics, site } from '@/lib/site';
 export const metadata: Metadata = {
   title: 'Company',
   description:
-    'House of Marka, a house of apps from Marka Modern Retail Private Limited: Shopify apps, Android and iOS apps and a SaaS platform, built in Gurugram, India.',
+    'House of Marka is the one-stop app development company of Marka Modern Retail Private Limited: Shopify, iOS and Android apps and custom software, from Gurugram.',
 };
 
 const principles = [
@@ -76,7 +76,7 @@ const trajectory = [
   },
   {
     title: 'A house of apps',
-    copy: 'Our own Shopify apps on the Shopify App Store, Android and iOS apps built to order, and a SaaS platform of our own — the studio becomes a house of apps.',
+    copy: 'Marka Reviews reaches the Shopify App Store, with Marka Cart and Marka Bundles & Upsells behind it — and the studio becomes a one-stop app development company: Shopify, iOS, Android and custom software, built to order.',
   },
   {
     title: 'Today',
@@ -87,7 +87,7 @@ const trajectory = [
 const governance: [string, string][] = [
   ['Legal entity', site.legal],
   ['Trading brand', site.brand],
-  ['What we make', 'Shopify apps · Android and iOS apps · a SaaS platform'],
+  ['What we make', 'Our Shopify apps: Marka Reviews, Marka Cart, Marka Bundles · Shopify, iOS and Android apps and custom software to order'],
   ['Registered office', site.address.inline],
   ['Primary markets', 'United States · United Kingdom · European Union'],
   ['Data protection', 'GDPR and UK GDPR compliant; DPAs available on request'],
@@ -101,7 +101,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="Company"
         title="House of Marka is a house of apps."
-        copy="Marka Modern Retail Private Limited is a modern retail and technology group. House of Marka is where it builds apps: our own Shopify apps, Android and iOS apps for clients, and a SaaS platform of our own — designed, built and operated by one senior team."
+        copy="Marka Modern Retail Private Limited is a modern retail and technology group. House of Marka is where it builds apps: its own Shopify apps — Marka Reviews, Marka Cart and Marka Bundles — and Shopify, iOS and Android apps and custom software for anyone with an idea, designed, built and operated by one senior team."
       />
 
       <Section className="!pt-4">
